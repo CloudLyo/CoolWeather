@@ -1,10 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
 <litepal>
-    <dbname value="cool_weather"/>
-    <version value="1"/>
-    <list>
-        <mapping calss="com.cloudnew.coolweather.db.Province"/>
-        <mapping calss="com.cloudnew.coolweather.db.City"/>
-        <mapping calss="com.cloudnew.coolweather.db.County"/>
 
+    <dbname value="cool_weather" />
+
+    <version value="2" />
+
+    <list>
+        <mapping class="com.cloudnew.coolweather.db.Province" />
+        <mapping class="com.cloudnew.coolweather.db.City" />
+        <mapping class="com.cloudnew.coolweather.db.County" />
     </list>
+
 </litepal>
