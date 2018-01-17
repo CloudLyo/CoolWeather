@@ -1,10 +1,13 @@
 package com.cloudnew.coolweather.util;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.cloudnew.coolweather.db.City;
 import com.cloudnew.coolweather.db.County;
 import com.cloudnew.coolweather.db.Province;
+import com.cloudnew.coolweather.gson.Weather;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -67,15 +70,16 @@ public class Utility {
         if (!TextUtils.isEmpty(response)) {
             try {
                 JSONArray allCounty = new JSONArray(response);
+                Log.d("TAG3",allCounty.length()+"");
                 for (int i = 0; i < allCounty.length(); ++i) {
-                    JSONObject contyObject = allCounty.getJSONObject(i);
+                    JSONObject countyObject = allCounty.getJSONObject(i);
                     County county = new County();
-                    county.setCountyName(contyObject.getString("name"));
-                    county.setCityId(contyObject.getInt("id"));
+                    county.setCountyName(countyObject.getString("name"));
+                    county.setWeatherId(countyObject.getString("weather_id"));
                     county.setCityId(cityId);
                     county.save();
-                    return true;
                 }
+                return true;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -83,4 +87,19 @@ public class Utility {
         return false;
     }
 
+    /**
+     * 将返回的JSON数据解析成Weather实体类
+     */
+    public static Weather handleWeatherResponse(String response){
+        try{
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray jsonArray = jsonObject.getJSONArray("HeWeather");
+            String weatherContent = jsonArray.getJSONObject(0).toString();
+            return new Gson().fromJson(weatherContent,Weather.class);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
